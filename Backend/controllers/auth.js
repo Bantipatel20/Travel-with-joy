@@ -2,9 +2,9 @@
 const User = require("../models/User")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 exports.signup = async(req,res)=>{
     try{
-        console.log("Here contro")
         const {name,email,password,role} = req.body;
         const user = await User.findOne({email})
         if(user){
@@ -52,14 +52,30 @@ exports.login = async(req,res)=>{
                 message:"Password Invalid"
             })
         }
-        return res.status(200).json({
+        const payload = {
+            email:user.email,
+            id:user._id,
+            role:user.role,
+        };
+        const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"1h"})
+        user.token = token;
+        user.password=undefined;
+        const options = {
+            expires: new Date(Date.now() + 3*24*60*60*1000),
+            httpOnly:true
+        }
+        return res.cookie("token",token,options).status(200).json({
             success:true,
+            token,
+            user,
             message:"User Login successfully"
         })
     }catch(error){
+        console.log(error);
         return res.status(500).json({
             success:false,
-            message:"Error while Login"
+            message:"Error while Login",
+            error: error.message 
         })
     }
 }

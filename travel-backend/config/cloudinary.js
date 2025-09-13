@@ -29,7 +29,7 @@ const destinationstorage = new CloudinaryStorage({
   }
 })
 
-export const uploadhotels = multer ( {storage:hotelstorage});
+export const uploadhotel = multer ( {storage:hotelstorage});
 export const uploaddestination = multer({storage:destinationstorage});
 
 export default cloudinary;

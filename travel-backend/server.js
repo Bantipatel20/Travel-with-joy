@@ -3,6 +3,7 @@ import connectdb  from "./config/db.js";
 import authroutes from './routes/auth.js'
 import dotenv from "dotenv";
 import { errorhandler } from "./middlewares/errorhandler.js";
+import hotelroutes from './routes/hotel.js';
 import destinationroutes from './routes/destination.js';
 import cors from 'cors';
 import morgan from "morgan";
@@ -24,6 +25,8 @@ app.use(helmet());
 //routes
 app.use('/api/auth',authroutes);
 app.use('/api/destination',destinationroutes);
+app.use('/api/hotel',hotelroutes);
+
 
 
 app.use(errorhandler);

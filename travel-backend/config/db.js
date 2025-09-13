@@ -7,7 +7,7 @@
         mongoose.connect(process.env.MONGODB_URL,{
             useNewUrlParser:true
         })
-        .then(console.log("Database Connected Successfully ***"))
+        .then(console.log("Database Connected Successfully"))
         .catch((err)=>{console.log("Error While Connected With DB "+ err);
             process.exit(1);
         })

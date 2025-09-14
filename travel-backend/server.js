@@ -1,6 +1,5 @@
 import express from "express";
 import connectdb from "./config/db.js";
-import serverless from "serverless-http";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
@@ -46,4 +45,8 @@ app.get("/", (req, res) => res.send("🌍 Travel Management System Backend is Ru
 // Error handler (moved to the end)
 app.use(errorhandler);
 
-export default serverless(app);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🌍 Travel Management System Backend is Running on port ${PORT}`);
+});

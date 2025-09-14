@@ -1,16 +1,18 @@
-    import mongoose  from "mongoose";
-    import dotenv from "dotenv";
-    dotenv.config();
+import mongoose from "mongoose";
 
-     const connectdb = ()=>{
+let isConnected = false;
 
-        mongoose.connect(process.env.MONGODB_URL,{
-            useNewUrlParser:true
-        })
-        .then(console.log("Database Connected Successfully"))
-        .catch((err)=>{console.log("Error While Connected With DB "+ err);
-            process.exit(1);
-        })
-    }
-     
-    export default connectdb;
+const connectdb = async () => {
+  if (isConnected) return;
+
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URL);
+    isConnected = conn.connections[0].readyState === 1;
+    console.log("✅ MongoDB Connected:", conn.connection.host);
+  } catch (err) {
+    console.error("❌ DB Connection Error:", err.message);
+    throw err;
+  }
+};
+
+export default connectdb;

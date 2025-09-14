@@ -42,11 +42,11 @@ export const hotelValidator = [
 export const packageValidator = [
   check("name").notEmpty().withMessage("Package name required"),
   check("price").isNumeric().withMessage("Price must be a number"),
-  check("destinationId").notEmpty().withMessage("Destination ID required"),
+  check("destinationid").notEmpty().withMessage("Destination ID required"),
 ];
 
 
 export const bookingValidator = [
-  check("packageId").notEmpty().withMessage("Package ID required"),
+  check("packageid").notEmpty().withMessage("Package ID required"),
   check("amount").isNumeric().withMessage("Amount must be a number"),
 ];

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import destination from "./destination";
 
 const packageschema = new mongoose.Schema(
     {
@@ -11,7 +10,7 @@ const packageschema = new mongoose.Schema(
             type:String
         },
         price:{
-            type:String,
+            type:Number,
             required:true
         },
         destinationid:{

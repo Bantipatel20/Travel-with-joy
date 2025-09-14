@@ -7,8 +7,8 @@ import { hotelValidator } from "../utils/validators.js"
 const router = express.Router();
 
 router.get('/',getallhotel);
-router.post('/',uploadhotel.array('images',5),hotelValidator,createhotel);
+router.post('/',auth,adminonly,uploadhotel.array('images',5),hotelValidator,createhotel);
 router.put('/:id',auth,adminonly,uploadhotel.array('images',5),hotelValidator,updatehotel);
-router.delete("/:id",deletehotel);
+router.delete("/:id",auth,adminonly,deletehotel);
 
 export default router;

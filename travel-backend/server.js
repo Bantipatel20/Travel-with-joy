@@ -12,6 +12,7 @@ import paymentroutes from "./routes/payment.js";
 import cors from 'cors';
 import morgan from "morgan";
 import helmet from 'helmet';
+import serverless from "serverless-http"; 
 
 
 dotenv.config();
@@ -38,6 +39,5 @@ app.use("/api/payment",paymentroutes);
 //error handler
 app.use(errorhandler);
 
-const port = process.env.PORT || 5000;
 
 export default serverless(app);

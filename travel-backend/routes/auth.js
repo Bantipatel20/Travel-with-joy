@@ -9,7 +9,7 @@ router.post('/register',registerValidator,register)
 
 router.post('/login',loginValidator,login)
 
-router.get('/me',me);
+router.get('/me',auth,me);
 
 export default router;
 

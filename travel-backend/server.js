@@ -38,6 +38,8 @@ app.use("/api/payment",paymentroutes);
 
 //error handler
 app.use(errorhandler);
-
+app.get("/", (req, res) => {
+  res.send("🌍 Travel Management System Backend is Running!");
+});
 
 export default serverless(app);

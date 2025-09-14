@@ -19,49 +19,19 @@ import paymentroutes from "./routes/payment.js";
 import { errorhandler } from "./middlewares/errorhandler.js";
 
 dotenv.config();
-
 const app = express();
+connectdb();
 
-// Connect to database with error handling
-const initializeDatabase = async () => {
-  try {
-    await connectdb();
-  } catch (error) {
-    console.error("Failed to connect to database:", error);
-    // Don't exit in serverless environment
-  }
-};
+// Middlewares
+app.use(cors());
+app.use(morgan('common'));
+app.use(helmet());
 
-// Initialize database connection
-initializeDatabase();
-
-// Enhanced CORS configuration
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-app.use(morgan('combined'));
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
-
-// Body parsing middleware with larger limits for file uploads
+// **Only parse JSON for non-file routes**
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-// Health check endpoint
-app.get("/health", (req, res) => {
-  res.status(200).json({ 
-    status: "OK", 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
-
-// API Routes
+// Routes
 app.use('/api/auth', authroutes);
 app.use('/api/destination', destinationroutes);
 app.use('/api/hotel', hotelroutes);
@@ -70,24 +40,10 @@ app.use("/api/package", packageroutes);
 app.use("/api/booking", bookingroutes);
 app.use("/api/payment", paymentroutes);
 
-// Root endpoint
-app.get("/", (req, res) => {
-  res.json({
-    message: "🌍 Travel Management System Backend is Running!",
-    version: "1.0.0",
-    status: "active"
-  });
-});
+// Root
+app.get("/", (req, res) => res.send("🌍 Travel Management System Backend is Running!"));
 
-// 404 handler
-app.use("*", (req, res) => {
-  res.status(404).json({
-    message: "Route not found",
-    path: req.originalUrl
-  });
-});
-
-// Error handler (must be last)
+// Error handler (moved to the end)
 app.use(errorhandler);
 
 export default serverless(app);

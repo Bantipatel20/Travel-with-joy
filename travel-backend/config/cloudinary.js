@@ -31,7 +31,14 @@ const destinationStorage = new CloudinaryStorage({
   },
 });
 
-export const uploadHotel = multer({ storage: hotelStorage });
-export const uploadDestination = multer({ storage: destinationStorage });
+export const uploadHotel = multer({ 
+  storage: hotelStorage,
+  limits: { fileSize: 5 * 1024 * 1024 } 
+});
+
+export const uploadDestination = multer({ 
+  storage: destinationStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }
+});
 
 export default cloudinary;
